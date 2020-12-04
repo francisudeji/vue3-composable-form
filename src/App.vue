@@ -1,17 +1,44 @@
 <template>
-  <img alt="Vue logo" src="./assets/logo.png">
-  <HelloWorld msg="Welcome to Your Vue.js App"/>
+  <div>
+    {{ form.values }}
+    <form @submit.prevent="form.handleSubmit">
+      <div>
+        <input
+          v-model="form.values.firstname"
+          type="text"
+          placeholder="first name"
+        />
+      </div>
+      <div>
+        <input
+          v-model="form.values.lastname"
+          type="text"
+          placeholder="first name"
+        />
+      </div>
+
+      <button type="submit">Submit</button>
+    </form>
+  </div>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
+import useForm from '@/composables/useForm';
 
 export default {
   name: 'App',
-  components: {
-    HelloWorld
-  }
-}
+  setup() {
+    const form = useForm({
+      initialValues: { firstname: '', lastname: '' },
+      onSubmit(values) {
+        console.log(values.firstname);
+      },
+      // validation(validator, va)
+    });
+
+    return { form };
+  },
+};
 </script>
 
 <style>
