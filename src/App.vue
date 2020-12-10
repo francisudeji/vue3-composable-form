@@ -1,6 +1,8 @@
 <template>
   <div>
     {{ form.values }}
+    ----------------------
+    <!-- {{ form.isValid }} -->
     <form @submit.prevent="form.handleSubmit">
       <div>
         <input
@@ -24,16 +26,20 @@
 
 <script>
 import useForm from '@/composables/useForm';
+import * as yup from 'yup';
 
 export default {
   name: 'App',
   setup() {
     const form = useForm({
-      initialValues: { firstname: '', lastname: '' },
+      defaultValues: { firstname: '', lastname: '' },
       onSubmit(values) {
-        console.log(values.firstname);
+        console.log(values);
       },
-      // validation(validator, va)
+      defaultValidation: yup.object().shape({
+        firstname: yup.string().required(),
+        lastname: yup.string().required(),
+      }),
     });
 
     return { form };
